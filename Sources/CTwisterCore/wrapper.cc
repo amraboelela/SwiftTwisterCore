@@ -3,12 +3,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include <fcntl.h>
-#include "db/db_impl.h"
-#include "leveldb/env.h"
+//#include <fcntl.h>
+//#include "db/db_impl.h"
+//#include "leveldb/env.h"
 
 #pragma mark - Static functions
 
+/*
 static leveldb::ReadOptions readOptions;
 static leveldb::WriteOptions writeOptions;
 
@@ -162,4 +163,4 @@ extern "C" void levelDBIteratorMoveToLast(void *iter) {
 
 extern "C" void levelDBIteratorDelete(void *iter) {
     delete iter;
-}
+}*/

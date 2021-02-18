@@ -1,26 +1,25 @@
 //
 //  BaseTestClass.swift
-//  SwiftLevelDBAppTests
+//  SwiftTwisterCoreAppTests
 //
-//  Created by Mathieu D'Amours on 11/14/13
-//  Modified by: Amr Aboelela on 8/23/16.
+//  Created by: Amr Aboelela on 2/18/21.
 //
 
 import XCTest
 import Foundation
 import Dispatch
-import SwiftLevelDB
+//import SwiftTwisterCore
 
-@testable import SwiftLevelDB
+@testable import SwiftTwisterCore
 
 class BaseTestClass: XCTestCase {
     
-    var db : LevelDB?
+    //var db : LevelDB?
     
     override func setUp() {
         super.setUp()
         
-        db = LevelDB(name: "TestDB")
+        /*db = LevelDB(name: "TestDB")
         guard let db = db else {
             print("Database reference is not existent, failed to open / create database")
             return
@@ -55,12 +54,12 @@ class BaseTestClass: XCTestCase {
                 NSLog("Problem decoding data: \(data.simpleDescription) key: \(key) error: \(error)")
                 return nil
             }
-        }
+        }*/
     }
     
     override func tearDown() {
-        db?.close()
-        db = nil
+        //db?.close()
+        //db = nil
         super.tearDown()
     }
 }

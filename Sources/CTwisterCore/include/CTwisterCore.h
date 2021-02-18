@@ -22,7 +22,7 @@
 #include <stdbool.h>
 
 #pragma mark - Database
-
+/*
 void *levelDBOpen(char *path);
 void levelDBDelete(void *db);
 
@@ -44,4 +44,4 @@ void levelDBIteratorMoveBackward(void *iter);
 void levelDBIteratorMoveToFirst(void *iter);
 void levelDBIteratorMoveToLast(void *iter);
 void levelDBIteratorDelete(void *iter);
-
+*/

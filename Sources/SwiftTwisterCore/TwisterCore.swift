@@ -10,9 +10,9 @@
 //
 
 import Foundation
-import CLevelDB
+import CTwisterCore
 
-public typealias LevelDBKeyCallback = (String, UnsafeMutablePointer<Bool>) -> Void
+/*public typealias LevelDBKeyCallback = (String, UnsafeMutablePointer<Bool>) -> Void
 
 public func SearchPathForDirectoriesInDomains(_ directory: FileManager.SearchPathDirectory, _ domainMask: FileManager.SearchPathDomainMask, _ expandTilde: Bool) -> [String] {
     let bundle = Bundle.main
@@ -534,4 +534,4 @@ open class LevelDB {
             levelDBIteratorMoveToFirst(iterator)
         }
     }
-}
+}*/
