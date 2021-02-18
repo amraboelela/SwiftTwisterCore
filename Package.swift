@@ -11,7 +11,7 @@ let package = Package(
             targets: ["SwiftTwisterCore"])
     ],
     dependencies: [
-        .package(url: "https://github.com/amraboelela/TwisterCore", .branch("master")),
+        .package(url: "https://github.com/amraboelela/TwisterCore", .branch("main")),
     ],
     targets: [
         .target(name: "SwiftTwisterCore", dependencies: ["TwisterCore"]),
