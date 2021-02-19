@@ -1,27 +1,17 @@
 //
-//  CLevelDB.h
-//  CLevelDB
+//  CTwisterCore.h
+//  CTwisterCore
 //
-//  Created by Amr Aboelela on 8/22/16.
-//
-// Copyright (c) 2016 Amr Aboelela <amraboelela@gmail.com>
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+//  Created by Amr Aboelela on 2/18/21.
 //
 
-//! Project version number for CLevelDB.
-//FOUNDATION_EXPORT double CLevelDBVersionNumber;
+//#include <stdbool.h>
 
-//! Project version string for CLevelDB.
-//FOUNDATION_EXPORT const unsigned char CLevelDBVersionString[];
+long twisterCoreGetPosts(char *username, long usernameLength, long count,void **result, long *resultLength);
 
-// In this header, you should import all the public headers of your framework using statements like #import <CLevelDB/PublicHeader.h>
+//extern json_spirit::Value getposts(const json_spirit::Array& params, bool fHelp);
 
-
-
-#include <stdbool.h>
-
-#pragma mark - Database
+//#pragma mark - Database
 /*
 void *levelDBOpen(char *path);
 void levelDBDelete(void *db);

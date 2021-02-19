@@ -11,11 +11,13 @@ let package = Package(
             targets: ["SwiftTwisterCore"])
     ],
     dependencies: [
-        .package(url: "https://github.com/amraboelela/twistercore", .branch("master")),
+        //.package(url: "https://github.com/amraboelela/twistercore", .branch("master")),
+        .package(path: "../twistercore")
     ],
     targets: [
         .target(name: "SwiftTwisterCore", dependencies: ["CTwisterCore"]),
         .target(name: "CTwisterCore", dependencies: ["twistercore"]),
+        //.target(name: "twistercore", dependencies: []),
         //.testTarget(name: "SwiftTwisterCoreTests", dependencies: ["SwiftTwisterCore"]),
     ]
 )
