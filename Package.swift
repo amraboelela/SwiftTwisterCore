@@ -17,7 +17,6 @@ let package = Package(
     targets: [
         .target(name: "SwiftTwisterCore", dependencies: ["CTwisterCore"]),
         .target(name: "CTwisterCore", dependencies: ["twistercore"]),
-        //.target(name: "twistercore", dependencies: []),
-        //.testTarget(name: "SwiftTwisterCoreTests", dependencies: ["SwiftTwisterCore"]),
+        .testTarget(name: "SwiftTwisterCoreTests", dependencies: ["SwiftTwisterCore"]),
     ]
 )

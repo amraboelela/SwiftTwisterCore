@@ -15,9 +15,11 @@ import Foundation
 class BaseTestClass: XCTestCase {
     
     //var db : LevelDB?
+    var twisterCore : TwisterCore?
     
     override func setUp() {
         super.setUp()
+        twisterCore = TwisterCore()
         
         /*db = LevelDB(name: "TestDB")
         guard let db = db else {
@@ -58,6 +60,7 @@ class BaseTestClass: XCTestCase {
     }
     
     override func tearDown() {
+        twisterCore = nil
         //db?.close()
         //db = nil
         super.tearDown()

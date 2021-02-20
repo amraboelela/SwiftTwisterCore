@@ -7,11 +7,10 @@
 
 import XCTest
 import Foundation
-//import Dispatch
 
 class MainTests: BaseTestClass {
     
-    func testDatabaseCreated() {
-        //XCTAssertNotNil(db, "Database should not be nil")
+    func testPostsForUsername() {
+        XCTAssertNotNil(twisterCore?.postsFor(username: "bbc_world"))
     }
 }
