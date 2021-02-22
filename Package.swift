@@ -6,9 +6,7 @@ import PackageDescription
 let package = Package(
     name: "SwiftTwisterCore",
     products: [
-        .library(
-            name: "SwiftTwisterCore",
-            targets: ["SwiftTwisterCore"])
+        .library(name: "SwiftTwisterCore", targets: ["SwiftTwisterCore"])
     ],
     dependencies: [
         //.package(url: "https://github.com/amraboelela/twistercore", .branch("master")),
@@ -17,6 +15,6 @@ let package = Package(
     targets: [
         .target(name: "SwiftTwisterCore", dependencies: ["CTwisterCore"]),
         .target(name: "CTwisterCore", dependencies: ["twistercore"]),
-        .testTarget(name: "SwiftTwisterCoreTests", dependencies: ["SwiftTwisterCore"]),
+        //.testTarget(name: "SwiftTwisterCoreTests", dependencies: ["SwiftTwisterCore"]),
     ]
 )

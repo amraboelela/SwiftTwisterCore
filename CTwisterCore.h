@@ -5,7 +5,7 @@
 //  Created by Amr Aboelela on 2/18/21.
 //
 
-//#include <stdbool.h>
+#include <stdbool.h>
 
 long twisterCoreGetPosts(char *username, long usernameLength, long max, void **result, long *resultLength);
 
