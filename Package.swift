@@ -9,12 +9,17 @@ let package = Package(
         .library(name: "SwiftTwisterCore", targets: ["SwiftTwisterCore"])
     ],
     dependencies: [
-        //.package(url: "https://github.com/amraboelela/twistercore", .branch("master")),
-        .package(path: "../twistercore")
+        //.package(path: "../twistercore")
+        .package(url: "https://github.com/amraboelela/jsoncpp", .branch("master")),
+        .package(url: "https://github.com/amraboelela/openssl", .branch("master")),
+        .package(url: "https://github.com/amraboelela/leveldb", .branch("master")),
+        .package(url: "https://github.com/amraboelela/boost", .branch("master")),
     ],
     targets: [
         .target(name: "SwiftTwisterCore", dependencies: ["CTwisterCore"]),
         .target(name: "CTwisterCore", dependencies: ["twistercore"]),
-        //.testTarget(name: "SwiftTwisterCoreTests", dependencies: ["SwiftTwisterCore"]),
+        .target(name: "twistercore", dependencies: ["bitcoinleveldb", "jsoncpp", "openssl"]),
+        .target(name: "bitcoinleveldb", dependencies: ["leveldb", "boost"]),
+        .testTarget(name: "SwiftTwisterCoreTests", dependencies: ["SwiftTwisterCore"]),
     ]
 )
