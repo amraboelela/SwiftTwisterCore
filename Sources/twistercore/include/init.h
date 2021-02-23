@@ -12,6 +12,7 @@ extern CWallet* pwalletMain;
 void StartShutdown();
 bool ShutdownRequested();
 void Shutdown();
+bool AppInit(int argc, char* argv[]);
 bool AppInit2(boost::thread_group& threadGroup);
 std::string HelpMessage();
 

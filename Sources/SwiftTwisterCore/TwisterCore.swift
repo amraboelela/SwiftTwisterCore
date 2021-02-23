@@ -10,6 +10,10 @@ import CTwisterCore
 
 open class TwisterCore {
     
+    init() {
+        appInit()
+    }
+    
     open func postsFor(username: String) -> String? {
         var rawData: UnsafeMutableRawPointer? = nil
         var rawDataLength: Int = 0

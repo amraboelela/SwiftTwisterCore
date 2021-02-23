@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "SwiftTwisterCore",
     products: [
-        .library(name: "SwiftTwisterCore", targets: ["SwiftTwisterCore"])
+        .library(name: "SwiftTwisterCore", targets: ["SwiftTwisterCore", "twistercore"])
     ],
     dependencies: [
         .package(url: "https://github.com/amraboelela/bitcoinleveldb", .branch("master")),

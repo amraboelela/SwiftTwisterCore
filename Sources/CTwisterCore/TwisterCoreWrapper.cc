@@ -5,11 +5,16 @@
 //  Created by Amr Aboelela on 2/18/21.
 //
 
+#include "init.h"
 #include "bitcoinrpc.h"
 #include <string>
 
 using namespace json_spirit;
 using namespace std;
+
+extern "C" long appInit() {
+    AppInit(0, NULL);
+}
 
 static char *CopyString(const std::string& str) {
     char *result = reinterpret_cast<char*>(malloc(sizeof(char) * str.size()));

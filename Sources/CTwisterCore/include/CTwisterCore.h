@@ -7,6 +7,7 @@
 
 //#include <stdbool.h>
 
+void appInit();
 long twisterCoreGetPosts(char *username, long usernameLength, long max, void **result, long *resultLength);
 
 //extern json_spirit::Value getposts(const json_spirit::Array& params, bool fHelp);
