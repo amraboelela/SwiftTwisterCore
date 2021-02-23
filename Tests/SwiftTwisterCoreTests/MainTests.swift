@@ -37,22 +37,6 @@ class MainTests: BaseTestClass {
         //XCTAssertNil(db["array1"], "A key that was deleted in batch should return nil")
     }
     
-    func testKeysManipulation() {
-        guard let db = db else {
-            print("\(Date.now) Database reference is not existent, failed to open / create database")
-            return
-        }
-        let value = ["foo": "bar"]
-        db["dict1"] = value
-        db["dict2"] = value
-        db["dict3"] = value
-        let keys = ["dict1", "dict2", "dict3"]
-        let keysFromDB = db.allKeys()
-        XCTAssertEqual(keysFromDB, keys, "-[LevelDB allKeys] should return the list of keys used to insert data")
-        db.removeAllValues()
-        XCTAssertEqual(db.allKeys(), [], "The list of keys should be empty after removing all values from the database")
-    }
-    
     func testRemovingKeysWithPrefix() {
         guard let db = db else {
             print("\(Date.now) Database reference is not existent, failed to open / create database")

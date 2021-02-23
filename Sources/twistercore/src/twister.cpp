@@ -198,7 +198,7 @@ torrent_handle startTorrentUser(std::string const &username, bool following, int
 torrent_handle getTorrentUser(std::string const &username)
 {
     LOCK(cs_twister);
-    if( m_userTorrent.count(username) )
+    if ( m_userTorrent.count(username) )
         return m_userTorrent[username];
     else
         return torrent_handle();
@@ -2669,7 +2669,7 @@ Value getposts(const Array& params, bool fHelp)
 
     std::multimap<int64,entry> postsByTime;
 
-    for( unsigned int u = 0; u < users.size(); u++ ) {
+    for (unsigned int u = 0; u < users.size(); u++ ) {
         Object user = users[u].get_obj();
         string strUsername;
         int max_id = std::numeric_limits<int>::max();
@@ -2682,7 +2682,7 @@ Value getposts(const Array& params, bool fHelp)
         }
 
         torrent_handle h = getTorrentUser(strUsername);
-        if( h.is_valid() ){
+        if ( h.is_valid() ){
             std::vector<std::string> pieces;
             h.get_pieces(pieces, count, max_id, since_id, allowed_flags, required_flags);
 
