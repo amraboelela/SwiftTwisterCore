@@ -29,7 +29,6 @@ extern "C" long twisterCoreGetPosts(char *username, long usernameLength, long ma
     params2.push_back(theMax);
     params2.push_back(postSources);
     Array posts = getposts(params2, false).get_array();
-    //vector<Object> outputVector;
     string postMessages = "";
     for (int i=0; i<posts.size(); i++) {
         try {
