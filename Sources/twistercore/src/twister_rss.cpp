@@ -1,7 +1,7 @@
 #include "twister_rss.h"
 #include "init.h"
 #include "bitcoinrpc.h"
-#include "json/json_spirit.h"
+#include "jsonspirit.h"
 
 #include <sstream>
 #include <algorithm>

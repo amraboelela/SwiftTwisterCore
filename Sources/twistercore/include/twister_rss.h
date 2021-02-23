@@ -1,7 +1,7 @@
 #ifndef TWISTER_RSS_H
 #define TWISTER_RSS_H
 
-#include "json/json_spirit.h"
+#include "jsonspirit.h"
 #include <string>
 #include <map>
 

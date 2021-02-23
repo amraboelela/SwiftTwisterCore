@@ -1,7 +1,7 @@
 #ifndef TWISTER_UTILS_H
 #define TWISTER_UTILS_H
 
-#include "json/json_spirit.h"
+#include "jsonspirit.h"
 #include "libtorrent/entry.hpp"
 #include "libtorrent/peer_id.hpp"
 

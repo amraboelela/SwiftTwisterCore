@@ -4,7 +4,7 @@
 #include "util.h"
 #include "key.h"
 #include <boost/thread.hpp>
-#include "json/json_spirit.h"
+#include "jsonspirit.h"
 
 #define LIBTORRENT_PORT_OFFSET 1000
 

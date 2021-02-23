@@ -12,9 +12,9 @@
 
 class CBlockIndex;
 
-#include "json/json_spirit_reader_template.h"
-#include "json/json_spirit_writer_template.h"
-#include "json/json_spirit_utils.h"
+#include "jsonspirit/reader_template.h"
+#include "jsonspirit/writer_template.h"
+#include "jsonspirit/utils.h"
 
 #include "util.h"
 
