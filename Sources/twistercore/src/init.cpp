@@ -313,12 +313,12 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
     }
 
     // hardcoded $DATADIR/bootstrap.dat
-    filesystem::path pathBootstrap = GetDataDir() / "bootstrap.dat";
+    filesystem::path pathBootstrap = strDataDir / "bootstrap.dat";
     if (filesystem::exists(pathBootstrap)) {
         FILE *file = fopen(pathBootstrap.string().c_str(), "rb");
         if (file) {
             CImportingNow imp;
-            filesystem::path pathBootstrapOld = GetDataDir() / "bootstrap.dat.old";
+            filesystem::path pathBootstrapOld = strDataDir / "bootstrap.dat.old";
             printf("Importing bootstrap.dat...\n");
             LoadExternalBlockFile(file);
             RenameOver(pathBootstrap, pathBootstrapOld);
@@ -339,7 +339,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 /** Initialize bitcoin.
  *  @pre Parameters should be parsed and config file should be read.
  */
-bool AppInit2(boost::thread_group& threadGroup)
+bool AppInit2(boost::thread_group& threadGroup, std::string path)
 {
     // ********************************************************* Step 1: setup
 #ifdef _MSC_VER
@@ -458,7 +458,7 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     // Make sure enough file descriptors are available
     int nBind = std::max((int)mapArgs.count("-bind"), 1);
-    nMaxConnections = GetArg("-maxconnections", 125);
+    nMaxConnections = GetArg("-maxconnections", 10); // 125
     nMaxConnections = std::max(std::min(nMaxConnections, (int)(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS)), 0);
     int nFD = RaiseFileDescriptorLimit(nMaxConnections + MIN_CORE_FILEDESCRIPTORS);
     if (nFD < MIN_CORE_FILEDESCRIPTORS)
@@ -513,10 +513,10 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
 
-    std::string strDataDir = GetDataDir().string();
+    std::string strDataDir = path; //GetDataDir().string();
 
     // Make sure only a single Bitcoin process is using the data directory.
-    boost::filesystem::path pathLockFile = GetDataDir() / ".lock";
+    boost::filesystem::path pathLockFile = path / ".lock"; //GetDataDir() / ".lock";
     FILE* file = fopen(pathLockFile.string().c_str(), "a"); // empty lock file; created if it doesn't exist.
     if (file) fclose(file);
     static boost::interprocess::file_lock lock(pathLockFile.string().c_str());
@@ -530,7 +530,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     printf("Using OpenSSL version %s\n", SSLeay_version(SSLEAY_VERSION));
     if (!fLogTimestamps)
         printf("Startup time: %s\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()).c_str());
-    printf("Default data directory %s\n", GetDefaultDataDir().string().c_str());
+    printf("Default data directory %s\n", path.c_str()); // GetDefaultDataDir().string().c_str());
     printf("Using data directory %s\n", strDataDir.c_str());
     printf("Using at most %i connections (%i file descriptors available)\n", nMaxConnections, nFD);
     std::ostringstream strErrors;
@@ -544,11 +544,11 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     uiInterface.InitMessage(_("Verifying wallet..."));
 
-    if (!bitdb.Open(GetDataDir()))
+    if (!bitdb.Open(strDataDir))
     {
         // try moving the database env out of the way
-        boost::filesystem::path pathDatabase = GetDataDir() / "database";
-        boost::filesystem::path pathDatabaseBak = GetDataDir() / strprintf("database.%"PRI64d".bak", GetTime());
+        boost::filesystem::path pathDatabase = strDataDir / "database";
+        boost::filesystem::path pathDatabaseBak = strDataDir / strprintf("database.%"PRI64d".bak", GetTime());
         try {
             boost::filesystem::rename(pathDatabase, pathDatabaseBak);
             printf("Moved old %s to %s. Retrying.\n", pathDatabase.string().c_str(), pathDatabaseBak.string().c_str());
@@ -557,7 +557,7 @@ bool AppInit2(boost::thread_group& threadGroup)
         }
 
         // try again
-        if (!bitdb.Open(GetDataDir())) {
+        if (!bitdb.Open(strDataDir)) {
             // if it still fails, it probably means we can't even create the database env
             string msg = strprintf(_("Error initializing wallet database environment %s!"), strDataDir.c_str());
             return InitError(msg);
@@ -571,7 +571,7 @@ bool AppInit2(boost::thread_group& threadGroup)
             return false;
     }
 
-    if (filesystem::exists(GetDataDir() / "twisterwallet.dat"))
+    if (filesystem::exists(strDataDir / "twisterwallet.dat"))
     {
         CDBEnv::VerifyResult r = bitdb.Verify("twisterwallet.dat", CWalletDB::Recover);
         if (r == CDBEnv::RECOVER_OK)
@@ -700,13 +700,13 @@ bool AppInit2(boost::thread_group& threadGroup)
     fReindex = GetBoolArg("-reindex", false);
 
     // Upgrading to 0.8; hard-link the old blknnnn.dat files into /blocks/
-    filesystem::path blocksDir = GetDataDir() / "blocks";
+    filesystem::path blocksDir = strDataDir / "blocks";
     if (!filesystem::exists(blocksDir))
     {
         filesystem::create_directories(blocksDir);
         bool linked = false;
         for (unsigned int i = 1; i < 10000; i++) {
-            filesystem::path source = GetDataDir() / strprintf("blk%04u.dat", i);
+            filesystem::path source = strDataDir / strprintf("blk%04u.dat", i);
             if (!filesystem::exists(source)) break;
             filesystem::path dest = blocksDir / strprintf("blk%05u.dat", i-1);
             try {
