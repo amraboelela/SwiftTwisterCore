@@ -10,8 +10,8 @@ import CTwisterCore
 
 open class TwisterCore {
     
-    init() {
-        appInit()
+    init(dataPath: String) {
+        appInit(dataPath.cString)
     }
     
     open func postsFor(username: String) -> String? {

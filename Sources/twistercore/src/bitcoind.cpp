@@ -24,7 +24,7 @@ void DetectShutdownThread(boost::thread_group* threadGroup)
 //
 // Start
 //
-bool AppInit(int argc, char* argv[])
+bool AppInit(int argc, char* argv[], std::string dataPath)
 {
     boost::thread_group threadGroup;
     boost::thread* detectShutdownThread = NULL;
@@ -99,7 +99,7 @@ bool AppInit(int argc, char* argv[])
 #endif
 
         detectShutdownThread = new boost::thread(boost::bind(&DetectShutdownThread, &threadGroup));
-        fRet = AppInit2(threadGroup);
+        fRet = AppInit2(threadGroup, dataPath);
     }
     catch (std::exception& e) {
         PrintExceptionContinue(&e, "AppInit()");

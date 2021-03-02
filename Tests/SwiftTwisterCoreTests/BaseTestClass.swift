@@ -14,10 +14,19 @@ class BaseTestClass: XCTestCase {
     
     var twisterCore : TwisterCore?
     
+    func getLibraryPath() -> String {
+        let libraryDirectory = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
+        return libraryDirectory.absoluteString
+    }
+    
     override func setUp() {
         super.setUp()
-        
-        twisterCore = TwisterCore()
+        var dataPath = NSURL(fileURLWithPath: name).path ?? ""
+        if dataPath == "/" + name {
+            let libraryPath = getLibraryPath()
+            dataPath = NSURL(fileURLWithPath: libraryPath, isDirectory: true).appendingPathComponent(name)?.path ?? ""
+        }
+        twisterCore = TwisterCore(dataPath: dataPath)
     }
     
     override func tearDown() {

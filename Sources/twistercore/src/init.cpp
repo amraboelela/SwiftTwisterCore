@@ -288,7 +288,7 @@ struct CImportingNow
     }
 };
 
-void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
+void ThreadImport(std::vector<boost::filesystem::path> vImportFiles, std::string dataPath)
 {
     RenameThread("twister-loadblk");
 
@@ -313,12 +313,12 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
     }
 
     // hardcoded $DATADIR/bootstrap.dat
-    filesystem::path pathBootstrap = strDataDir / "bootstrap.dat";
+    filesystem::path pathBootstrap = dataPath + "/bootstrap.dat";
     if (filesystem::exists(pathBootstrap)) {
         FILE *file = fopen(pathBootstrap.string().c_str(), "rb");
         if (file) {
             CImportingNow imp;
-            filesystem::path pathBootstrapOld = strDataDir / "bootstrap.dat.old";
+            filesystem::path pathBootstrapOld = dataPath + "/bootstrap.dat.old";
             printf("Importing bootstrap.dat...\n");
             LoadExternalBlockFile(file);
             RenameOver(pathBootstrap, pathBootstrapOld);
@@ -339,7 +339,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 /** Initialize bitcoin.
  *  @pre Parameters should be parsed and config file should be read.
  */
-bool AppInit2(boost::thread_group& threadGroup, std::string path)
+bool AppInit2(boost::thread_group& threadGroup, std::string dataPath)
 {
     // ********************************************************* Step 1: setup
 #ifdef _MSC_VER
@@ -513,10 +513,10 @@ bool AppInit2(boost::thread_group& threadGroup, std::string path)
 
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
 
-    std::string strDataDir = path; //GetDataDir().string();
+    std::string strDataDir = dataPath; //GetDataDir().string();
 
     // Make sure only a single Bitcoin process is using the data directory.
-    boost::filesystem::path pathLockFile = path / ".lock"; //GetDataDir() / ".lock";
+    boost::filesystem::path pathLockFile = dataPath + "/.lock"; //GetDataDir() / ".lock";
     FILE* file = fopen(pathLockFile.string().c_str(), "a"); // empty lock file; created if it doesn't exist.
     if (file) fclose(file);
     static boost::interprocess::file_lock lock(pathLockFile.string().c_str());
@@ -530,7 +530,7 @@ bool AppInit2(boost::thread_group& threadGroup, std::string path)
     printf("Using OpenSSL version %s\n", SSLeay_version(SSLEAY_VERSION));
     if (!fLogTimestamps)
         printf("Startup time: %s\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()).c_str());
-    printf("Default data directory %s\n", path.c_str()); // GetDefaultDataDir().string().c_str());
+    printf("Default data directory %s\n", dataPath.c_str()); // GetDefaultDataDir().string().c_str());
     printf("Using data directory %s\n", strDataDir.c_str());
     printf("Using at most %i connections (%i file descriptors available)\n", nMaxConnections, nFD);
     std::ostringstream strErrors;
@@ -547,8 +547,8 @@ bool AppInit2(boost::thread_group& threadGroup, std::string path)
     if (!bitdb.Open(strDataDir))
     {
         // try moving the database env out of the way
-        boost::filesystem::path pathDatabase = strDataDir / "database";
-        boost::filesystem::path pathDatabaseBak = strDataDir / strprintf("database.%"PRI64d".bak", GetTime());
+        boost::filesystem::path pathDatabase = dataPath + "/database";
+        boost::filesystem::path pathDatabaseBak = dataPath + "/" + strprintf("database.%"PRI64d".bak", GetTime());
         try {
             boost::filesystem::rename(pathDatabase, pathDatabaseBak);
             printf("Moved old %s to %s. Retrying.\n", pathDatabase.string().c_str(), pathDatabaseBak.string().c_str());
@@ -571,7 +571,7 @@ bool AppInit2(boost::thread_group& threadGroup, std::string path)
             return false;
     }
 
-    if (filesystem::exists(strDataDir / "twisterwallet.dat"))
+    if (filesystem::exists(dataPath + "/twisterwallet.dat"))
     {
         CDBEnv::VerifyResult r = bitdb.Verify("twisterwallet.dat", CWalletDB::Recover);
         if (r == CDBEnv::RECOVER_OK)
@@ -700,13 +700,13 @@ bool AppInit2(boost::thread_group& threadGroup, std::string path)
     fReindex = GetBoolArg("-reindex", false);
 
     // Upgrading to 0.8; hard-link the old blknnnn.dat files into /blocks/
-    filesystem::path blocksDir = strDataDir / "blocks";
+    filesystem::path blocksDir = dataPath + "/blocks";
     if (!filesystem::exists(blocksDir))
     {
         filesystem::create_directories(blocksDir);
         bool linked = false;
         for (unsigned int i = 1; i < 10000; i++) {
-            filesystem::path source = strDataDir / strprintf("blk%04u.dat", i);
+            filesystem::path source = dataPath + "/" + strprintf("blk%04u.dat", i);
             if (!filesystem::exists(source)) break;
             filesystem::path dest = blocksDir / strprintf("blk%05u.dat", i-1);
             try {
@@ -959,7 +959,7 @@ bool AppInit2(boost::thread_group& threadGroup, std::string path)
         BOOST_FOREACH(string strFile, mapMultiArgs["-loadblock"])
             vImportFiles.push_back(strFile);
     }
-    threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));
+    threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles, dataPath));
 
     // ********************************************************* Step 10: load peers
 

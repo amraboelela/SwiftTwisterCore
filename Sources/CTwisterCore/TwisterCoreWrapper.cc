@@ -12,8 +12,8 @@
 using namespace json_spirit;
 using namespace std;
 
-extern "C" long appInit() {
-    AppInit(0, NULL);
+extern "C" long appInit(char *dataPath) {
+    AppInit(0, NULL, dataPath);
 }
 
 static char *CopyString(const std::string& str) {
